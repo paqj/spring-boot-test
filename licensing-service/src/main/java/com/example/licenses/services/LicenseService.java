@@ -11,6 +11,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -44,7 +45,7 @@ public class LicenseService {
                 .withComment(config.getExampleProperty());
     }
 
-    @HystrixCommand
+    @HystrixCommand(fallbackMethod = "buildFallbackLicenseList")
     public List<License> getLicensesByOrg(String organizationId){
         randomlyRunLong();
 
@@ -54,6 +55,16 @@ public class LicenseService {
     @HystrixCommand
     private Organization getOrganization(String organizationId){
         return organizationFeignClient.getOrganization(organizationId);
+    }
+
+    public List<License> buildFallbackLicenseList(String organizationId){
+        List<License> fallbackList = new ArrayList<>();
+        License license = new License()
+                .withId("0000000-00-00000")
+                .withOrganizationId(organizationId)
+                .withProductName("Sorry no Licensing information currently available");
+        fallbackList.add(license);
+        return fallbackList;
     }
 
     public void saveLicense(License license){
