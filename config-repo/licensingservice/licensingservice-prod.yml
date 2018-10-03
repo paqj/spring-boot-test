@@ -1,0 +1,25 @@
+
+example:
+  property: "I AM IN THE Prod"
+
+spring:
+  jpa:
+    database: "MYSQL"
+    show-sql: "true"
+    properties:
+      hibernate:
+        dialect: "org.hibernate.dialect.MySQL5Dialect"
+  datasource:
+    platform:  "mysql"
+    url: "jdbc:mysql://localhost:3306/testdb?autoReconnect=true&useSSL=false"
+    username: "hctest"
+    password: "1234"
+    test-while-idle: "true"
+    validation-query: "SELECT 1"
+    driver: "com.mysql.cj.jdbc.Driver"
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include: env, beans, mappings
