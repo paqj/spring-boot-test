@@ -1,7 +1,9 @@
 package com.example.licenses.services;
 
+import com.example.licenses.clients.OrganizationDiscoveryClient;
 import com.example.licenses.config.ServiceConfig;
 import com.example.licenses.model.License;
+import com.example.licenses.model.Organization;
 import com.example.licenses.repository.LicenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +20,20 @@ public class LicenseService {
     @Autowired
     ServiceConfig config;
 
+    @Autowired
+    OrganizationDiscoveryClient organizationDiscoveryClient;
+
     public License getLicense(String organizationId,String licenseId) {
+        Organization organization = organizationDiscoveryClient.getOrganization(organizationId);
+
         License license = licenseRepository.findByOrganizationIdAndLicenseId(organizationId, licenseId);
-        return license.withComment(config.getExampleProperty());
+
+        return license
+                .withOrganizationName(organization.getName())
+                .withContactName(organization.getContactName())
+                .withContactEmail(organization.getContactEmail())
+                .withContactPhone(organization.getContactPhone())
+                .withComment(config.getExampleProperty());
     }
 
     public List<License> getLicensesByOrg(String organizationId){
