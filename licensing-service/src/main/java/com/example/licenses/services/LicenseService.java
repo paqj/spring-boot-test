@@ -8,6 +8,7 @@ import com.example.licenses.model.License;
 import com.example.licenses.model.Organization;
 import com.example.licenses.repository.LicenseRepository;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +46,11 @@ public class LicenseService {
                 .withComment(config.getExampleProperty());
     }
 
-    @HystrixCommand(fallbackMethod = "buildFallbackLicenseList")
+    @HystrixCommand(fallbackMethod = "buildFallbackLicenseList",
+        threadPoolKey = "licenseByOrgThreadPool",
+        threadPoolProperties =
+                {@HystrixProperty(name = "coreSize", value = "30"),
+                @HystrixProperty(name = "maxQueueSize", value = "100")})
     public List<License> getLicensesByOrg(String organizationId){
         randomlyRunLong();
 
