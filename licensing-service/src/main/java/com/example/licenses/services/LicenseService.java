@@ -1,6 +1,7 @@
 package com.example.licenses.services;
 
 import com.example.licenses.clients.OrganizationDiscoveryClient;
+import com.example.licenses.clients.OrganizationFeignClient;
 import com.example.licenses.clients.OrganizationRestTemplateClient;
 import com.example.licenses.config.ServiceConfig;
 import com.example.licenses.model.License;
@@ -22,11 +23,13 @@ public class LicenseService {
     ServiceConfig config;
 
     @Autowired
-    OrganizationRestTemplateClient organizationRestClient;
+    OrganizationFeignClient organizationFeignClient;
+//  OrganizationRestTemplateClient organizationRestClient;
 //  OrganizationDiscoveryClient organizationDiscoveryClient;
 
     public License getLicense(String organizationId,String licenseId) {
-        Organization organization = organizationRestClient.getOrganization(organizationId);
+        Organization organization = organizationFeignClient.getOrganization(organizationId);
+//      Organization organization = organizationRestClient.getOrganization(organizationId);
 //      Organization organization = organizationDiscoveryClient.getOrganization(organizationId);
 
         License license = licenseRepository.findByOrganizationIdAndLicenseId(organizationId, licenseId);
