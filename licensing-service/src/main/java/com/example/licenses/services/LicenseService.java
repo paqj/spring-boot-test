@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -43,6 +44,8 @@ public class LicenseService {
     }
 
     public List<License> getLicensesByOrg(String organizationId){
+        randomlyRunLong();
+
         return licenseRepository.findByOrganizationId( organizationId );
     }
 
@@ -59,6 +62,25 @@ public class LicenseService {
 
     public void deleteLicense(License license){
         licenseRepository.deleteById( license.getLicenseId());
+    }
+
+    private void randomlyRunLong() {
+        Random rand = new Random();
+
+        int randomNum = rand.nextInt(3) + 1;
+
+        if(randomNum == 3) {
+            System.out.println("Hit as delayed service");
+            sleep();
+        }
+    }
+
+    private void sleep(){
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }
