@@ -6,6 +6,6 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/paqj/spring-boot-test/config-repo
+          uri: https://github.com/paqj/spring-boot-test
           search-paths: config-repo/licensingservice, config-repo/organizationservice
 
