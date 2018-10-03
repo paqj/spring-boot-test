@@ -7,6 +7,7 @@ import com.example.licenses.config.ServiceConfig;
 import com.example.licenses.model.License;
 import com.example.licenses.model.Organization;
 import com.example.licenses.repository.LicenseRepository;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,10 +44,16 @@ public class LicenseService {
                 .withComment(config.getExampleProperty());
     }
 
+    @HystrixCommand
     public List<License> getLicensesByOrg(String organizationId){
         randomlyRunLong();
 
         return licenseRepository.findByOrganizationId( organizationId );
+    }
+
+    @HystrixCommand
+    private Organization getOrganization(String organizationId){
+        return organizationFeignClient.getOrganization(organizationId);
     }
 
     public void saveLicense(License license){
