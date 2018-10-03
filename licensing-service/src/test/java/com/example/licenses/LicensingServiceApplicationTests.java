@@ -1,4 +1,4 @@
-package com.example.licensingservice;
+package com.example.licenses;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
