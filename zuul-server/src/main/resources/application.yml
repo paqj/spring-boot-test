@@ -9,38 +9,32 @@ logging:
     org.springframework.web: WARN
     com.example: DEBUG
 
-eureka:
-  instance:
-    preferIpAddress: true
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+spring:
+  application:
+    name: zuul-router
+  cloud:
+    eureka:
+      host: localhost
+      port: 8761
 
 #eureka:
+#  instance:
+#    preferIpAddress: true
 #  client:
+#    registerWithEureka: true
+#    fetchRegistry: true
 #    serviceUrl:
-#     defaultZone: http://localhost:8761
+#      defaultZone: http://localhost:8761/eureka/
 
-#spring:
-#  cloud:
-#    eureka:
-#      host: localhost
-#      port: 8761
-
-#zuul:
-#  ignored-services: '*'
-#  prefix: /api
-#  routes:
-#    organizationservice: /organization/**
-#    licensingservice: /licenses/**
+zuul:
+  ignored-services: '*'
+  prefix: /api
+  routes:
+    organizationservice: /organization/**
+    licensingservice: /licenses/**
 
 management:
   endpoints:
     web:
       exposure:
         include: env, beans, mappings, routes
-spring:
-  application:
-    name: zuul-router
