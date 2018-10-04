@@ -1,0 +1,46 @@
+
+
+server:
+  port: 5555
+
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: WARN
+    com.example: DEBUG
+
+#eureka:
+#  instance:
+#    preferIpAddress: true
+#  client:
+#    registerWithEureka: true
+#    fetchRegistry: true
+#    serviceUrl:
+#      defaultZone: http://localhost:8761/eureka/
+
+#eureka:
+#  client:
+#    serviceUrl:
+#     defaultZone: http://localhost:8761
+
+#spring:
+#  cloud:
+#    eureka:
+#      host: localhost
+#      port: 8761
+
+#zuul:
+#  ignored-services: '*'
+#  prefix: /api
+#  routes:
+#    organizationservice: /organization/**
+#    licensingservice: /licenses/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: env, beans, mappings, routes
+spring:
+  application:
+    name: zuul-router
